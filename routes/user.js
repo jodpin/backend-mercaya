@@ -11,7 +11,7 @@ userRouter.post("/users", createUser);
 userRouter.post("/users/login", login);
 
 
-userRouter.get("/users/profile", checkAuth, profile)
+userRouter.get("/users/profile", checkAuth, profile);
 
 
 export default userRouter;

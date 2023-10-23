@@ -1,17 +1,16 @@
-import Product from "../models/product.model.js";
+import Producto from "../models/product.model.js";
 import { deleteImage, uploadImage } from "../utils/cloudinary.js";
 import fs from "fs-extra";
 // fs es un paquete que se usa para manejar los archivos en este caso eliminarlos
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Producto.find();
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 export const createProducts = async (req, res) => {
   try {
@@ -20,23 +19,27 @@ export const createProducts = async (req, res) => {
     // req imprime los archivos que le envie
 
     // si hay una imagen la sube a cloudinary
-    const product = new Product(body);
+    const product = new Producto(body);
+    console.log(body);
 
     if (req.files) {
-      const result = await uploadImage(req.files.image.tempFilePath);
-      product.image = {
+      // console.log("entramos al files");
+      // console.log(req.files.file.tempFilePath);
+      // console.log("antes de este debe estar el nombre");
+      const result = await uploadImage(req.files.file.tempFilePath);
+      product.imagen = {
         public_id: result.public_id,
         url: result.secure_url,
       };
       console.log(result);
-      // console.log(req.files.image)
     }
 
-    await fs.unlink(req.files.image.tempFilePath);
+    await fs.unlink(req.files.file.tempFilePath);
 
     await product.save();
     res.json(product);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -45,7 +48,7 @@ export const getProduct = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const product = await Product.findById(id);
+    const product = await Producto.findById(id);
 
     if (!product) {
       res.status(404).json({
@@ -63,7 +66,7 @@ export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
+    const updatedProduct = await Producto.findByIdAndUpdate(id, req.body, {
       new: true,
     });
 
@@ -77,7 +80,7 @@ export const deleteProducts = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const product = await Product.findByIdAndDelete(id);
+    const product = await Producto.findByIdAndDelete(id);
 
     if (!product) {
       res.status(404).json({

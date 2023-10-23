@@ -2,24 +2,38 @@ import mongoose from "mongoose";
 
 const productSchema = mongoose.Schema(
   {
-    name: {
+    codigo: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
-    description: {
+    nombre: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    posicion: {
       type: String,
       trim: true,
     },
-    price: {
-      type: Number,
-      default: 0,
+    categoria: {
+      type: String,
+      trim: true,
     },
-    image:{
+    precioCompra: {
+      type: String,
+      trim: true,
+    },
+    precioVenta: {
+      type: String,
+      trim: true,
+    },
+    imagen: {
       public_id: String,
-      url: String
-    }
+      url: String,
+    },
   },
   {
     timestamps: true,
@@ -29,4 +43,4 @@ const productSchema = mongoose.Schema(
 //A partir de este esquema vas  atraer de mongoose una
 // funcion que se llama model() basado en el product schema
 
-export default mongoose.model("Product", productSchema);
+export default mongoose.model("Producto", productSchema);

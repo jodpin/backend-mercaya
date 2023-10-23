@@ -11,11 +11,15 @@ cloudinary.config({
 });
 
 export const uploadImage = async (filePath) => {
-  return await cloudinary.uploader.upload(filePath, {
-    folder: "imagenes1",
-  });
+  try {
+    return await cloudinary.uploader.upload(filePath, {
+      folder: "imagenes1",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export async function deleteImage(publicId){
+export async function deleteImage(publicId) {
   return await cloudinary.uploader.destroy(publicId);
 }

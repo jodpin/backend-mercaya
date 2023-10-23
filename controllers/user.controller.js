@@ -4,6 +4,7 @@ import generateJwt from "../helpers/generateJwt.js";
 
 export const createUser = async (req, res) => {
   const { email } = req.body;
+  console.log(req.body);
   const existedUser = await User.findOne({ email });
 
   if (existedUser) {
@@ -36,8 +37,9 @@ export const login = async (req, res) => {
   if (user.password === password) {
     res.json({
       _id: user._id,
-      name: user.name,
+      nombre: user.nombre,
       email: user.email,
+      admin: user.admin,
       token: generateJwt(user._id),
     });
   } else {
